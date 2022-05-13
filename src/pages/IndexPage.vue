@@ -3,9 +3,12 @@
     <HeaderComponent />
     <div class="container">
       <BannerComponent />
-      <div class="card__wrap">
+      <div class="card__wrap position-relative">
         <h2 class="title2 text-center">Working with GET request</h2>
         <div class="row">
+          <template v-if="isLoading">
+            <PreloaderComponent />
+          </template>
           <div class="col-4" v-for="user in users" :key="user.id">
             <CardComponent
                 :avatar="user.photo"
@@ -27,6 +30,7 @@ import HeaderComponent from "@/components/layout/HeaderComponent";
 import BannerComponent from "@/components/ui/BannerComponent";
 import CardComponent from "@/components/ui/CardComponent";
 import ButtonComponent from "@/components/ui/ButtonComponent";
+import PreloaderComponent from "@/components/ui/PreloaderComponent";
 
 export default {
   name: "IndexPage",
@@ -34,12 +38,14 @@ export default {
     HeaderComponent,
     BannerComponent,
     CardComponent,
-    ButtonComponent
+    ButtonComponent,
+    PreloaderComponent
   },
   data() {
     return {
       users: [],
-      nextLink: ""
+      nextLink: "",
+      isLoading: false
     }
   },
   mounted() {
@@ -49,10 +55,14 @@ export default {
   },
   methods: {
     fetchUsers(api) {
-      this.axios.get(api).then((response) => {
-        this.users = response.data.users;
-        this.nextLink = response.data.links.next_url;
-      });
+      this.isLoading = true;
+      setTimeout(() => {
+        this.axios.get(api).then((response) => {
+          this.users = response.data.users;
+          this.nextLink = response.data.links.next_url;
+          this.isLoading = false;
+        });
+      }, 2000);
     },
   }
 }
