@@ -21,6 +21,7 @@
         </div>
         <ButtonComponent @click.stop.prevent="fetchUsers(nextLink)" title="Show more"/>
       </div>
+      <SignUpFormComponents />
     </div>
   </div>
 </template>
@@ -31,6 +32,7 @@ import BannerComponent from "@/components/ui/BannerComponent";
 import CardComponent from "@/components/ui/CardComponent";
 import ButtonComponent from "@/components/ui/ButtonComponent";
 import PreloaderComponent from "@/components/ui/PreloaderComponent";
+import SignUpFormComponents from "@/components/SignUpFormComponents";
 
 export default {
   name: "IndexPage",
@@ -39,7 +41,8 @@ export default {
     BannerComponent,
     CardComponent,
     ButtonComponent,
-    PreloaderComponent
+    PreloaderComponent,
+    SignUpFormComponents
   },
   data() {
     return {
