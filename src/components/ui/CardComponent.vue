@@ -2,41 +2,28 @@
   <div class="card">
     <img :src="avatar" :alt="fullName" class="img-fluid mb-20" />
     <p class="card__text mb-20 mt-0">
-      <span :class="['tooltip', { cursorPointer: lengthText(fullName) }]">
-        {{ truncateText(fullName) }}
-        <span class="tooltiptext" v-if="lengthText(fullName)">
-          {{ fullName }}
-        </span>
-      </span>
+      <TooltipComponent :text="fullName" />
     </p>
     <p class="card__text2 text-center">
-      <span :class="['tooltip', { cursorPointer: lengthText(position) }]">
-        {{ truncateText(position) }}
-        <span class="tooltiptext" v-if="lengthText(position)">
-          {{ position }}
-        </span>
-      </span>
-      <br />
-      <span :class="['tooltip', { cursorPointer: lengthText(email) }]">
-        {{ truncateText(email) }}
-        <span class="tooltiptext" v-if="lengthText(email)">
-          {{ email }}
-        </span>
-      </span>
-      <br />
-      <span :class="['tooltip', { cursorPointer: lengthText(phone) }]">
-        {{ truncateText(phone) }}
-        <span class="tooltiptext" v-if="lengthText(phone)">
-          {{ phone }}
-        </span>
-      </span>
+      <TooltipComponent :text="position" />
+    </p>
+    <p class="card__text2">
+      <TooltipComponent :text="email" />
+    </p>
+    <p class="card__text2">
+      <TooltipComponent :text="phone" />
     </p>
   </div>
 </template>
 
 <script>
+import TooltipComponent from "@/components/ui/TooltipComponent";
+
 export default {
   name: "CardComponent",
+  components: {
+    TooltipComponent
+  },
   props: {
     avatar: {
       type: String,
@@ -57,18 +44,6 @@ export default {
     phone: {
       type: String,
       required: true,
-    },
-  },
-  methods: {
-    lengthText(text) {
-      let length = 40;
-      return text && text.length > length;
-    },
-    truncateText(text) {
-      let size = 37;
-      if (text) {
-        return text.length > size ? text.slice(0, size - 1) + "..." : text;
-      }
     },
   },
 }
