@@ -1,6 +1,7 @@
 const {defineConfig} = require('@vue/cli-service')
 const ImageminPlugin = require('imagemin-webpack-plugin').default
 var imageminMozjpeg = require('imagemin-mozjpeg')
+const CompressionPlugin = require("compression-webpack-plugin")
 
 module.exports = defineConfig({
   transpileDependencies: true,
@@ -15,8 +16,16 @@ module.exports = defineConfig({
     }
   },
   configureWebpack: {
+    performance: {
+      hints: false,
+      maxEntrypointSize: 512000,
+      maxAssetSize: 512000
+    },
     devtool: 'source-map',
     plugins: [
+      new CompressionPlugin({
+        test: /\.js(\?.*)?$/i,
+      }),
       new ImageminPlugin({
         pngquant: {
           quality: '55-60'

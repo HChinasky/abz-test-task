@@ -2,7 +2,7 @@
   <div class="header">
     <div class="container">
       <div class="logo-block">
-        <img class="img-fluid" src="@/assets/Logo.svg" alt="logo" />
+        <img class="img-fluid" src="@/assets/Logo.svg" alt="logo" width="104" height="26" />
       </div>
       <div class="buttons-block">
         <LinkComponent link-class="mr-10" title="Users" link="#users" />
