@@ -1,6 +1,6 @@
 @import "~normalize.css";
 @import "base/fonts";
-@include font($font-main, 'assets/fonts/Nunito-Regular.ttf');
+@include font($font-main, 'assets/fonts/Nunito-Regular.woff2');
 
 body {
   font-family: $font-main, sans-serif;

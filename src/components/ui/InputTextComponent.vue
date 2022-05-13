@@ -1,8 +1,8 @@
 <template>
   <div class="form-control" :id="'form-control__' + nameInput">
-    <span  :class="['input-label', { 'error-label': error !== '' }]">
+    <label :for="nameInput" :class="['input-label', { 'error-label': error !== '' }]">
       {{ label }}
-    </span>
+    </label>
     <template v-if="showBottomLabel !== ''">
       <input
           v-on="toggleClassListeners"
@@ -10,6 +10,7 @@
           :value="modelValue"
           :type="typeInput"
           :name="nameInput"
+          :id="nameInput"
           v-mask="'+38 (0##) ###-##-##'"
           :class="['form-input', { 'error-border': error !== '' }]"
           :masked="false"
@@ -23,6 +24,7 @@
           :value="modelValue"
           :type="typeInput"
           :name="nameInput"
+          :id="nameInput"
           :class="['form-input', { 'error-border': error !== '' }]"
       />
     </template>

@@ -61,6 +61,8 @@ export default {
   margin: 14.5px;
   .img-fluid {
     border-radius: 50%;
+    width: 70px;
+    height: 70px;
   }
   .card__text {
     font-size: 16px;
