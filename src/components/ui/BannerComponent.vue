@@ -12,7 +12,7 @@
         Development keeps evolving.
       </p>
     </div>
-    <LinkComponent title="Sign up"/>
+    <LinkComponent title="Sign up" link="#sign-up" />
   </div>
 </template>
 

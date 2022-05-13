@@ -1,5 +1,5 @@
 <template>
-  <a :class="['primary__link', linkClass]" :href="link">{{ title }}</a>
+  <a :class="['primary__link', linkClass]" :href="link" v-smooth-scroll>{{ title }}</a>
 </template>
 
 <script>

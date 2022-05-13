@@ -3,7 +3,7 @@
     <HeaderComponent />
     <div class="container">
       <BannerComponent />
-      <div class="card__wrap position-relative">
+      <div class="card__wrap position-relative" id="users">
         <h2 class="title2 text-center">Working with GET request</h2>
         <div class="row">
           <template v-if="isLoading">
@@ -21,7 +21,9 @@
         </div>
         <ButtonComponent @click.stop.prevent="fetchUsers(nextLink)" title="Show more"/>
       </div>
-      <SignUpFormComponents @update-get="updateRequest" />
+      <section id="sign-up">
+        <SignUpFormComponents @update-get="updateRequest" />
+      </section>
     </div>
   </div>
 </template>

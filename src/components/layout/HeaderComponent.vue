@@ -5,8 +5,8 @@
         <img class="img-fluid" src="@/assets/Logo.svg" alt="logo" />
       </div>
       <div class="buttons-block">
-        <LinkComponent link-class="mr-10" title="Users" />
-        <LinkComponent title="Sign up" />
+        <LinkComponent link-class="mr-10" title="Users" link="#users" />
+        <LinkComponent title="Sign up" link="#sign-up" />
       </div>
     </div>
   </div>
