@@ -1,9 +1,11 @@
 <template>
-  <div class="wrap">
+  <div :class="['wrap', { saved: savingSuccessful }]">
+    <template v-if="!savingSuccessful">
       <h2 class="title2 text-center">Working with POST request</h2>
       <Form
           v-slot="{ errors }"
           class="form-wrap"
+          @submit="onSubmit"
       >
         <InputTextComponent
             v-model="name"
@@ -35,7 +37,15 @@
             title="Submit"
             :disabled="!meta.valid || Object.keys(errors).length !== 0 || !file" />
         </div>
+        <span class="text-error" id="back-error"></span>
       </Form>
+    </template>
+    <template v-else>
+      <h2 class="title2 text-center">User successfully registered</h2>
+      <div class="success-img">
+        <img src="@/assets/success-image.svg" alt="success register" />
+      </div>
+    </template>
   </div>
 </template>
 
@@ -89,17 +99,54 @@ export default {
   data() {
     return {
       positions: {},
+      token: "",
       file: false,
+      savingSuccessful: false,
     }
   },
   mounted() {
     const positionApi =
-            "https://frontend-test-assignment-api.abz.agency/api/v1/positions";
+            "https://frontend-test-assignment-api.abz.agency/api/v1/positions",
+        tokenApi = "https://frontend-test-assignment-api.abz.agency/api/v1/token";
     this.axios.get(positionApi).then((response) => {
       this.positions = response.data.positions;
     });
+    this.axios.get(tokenApi).then((response) => {
+      this.token = response.data.token;
+    });
   },
   methods: {
+    onSubmit() {
+      let user = new FormData();
+      user.append("name", this.name);
+      user.append("email", this.email);
+      user.append("phone", this.phone.replace(/[^+\d]+/g, ""));
+      user.append("position_id", +this.position);
+      user.append("photo", this.file);
+
+      const userAddApi =
+              "https://frontend-test-assignment-api.abz.agency/api/v1/users",
+          headers = {
+            Token: this.token,
+            "Content-Type": "multipart/form-data",
+          };
+
+      this.axios
+          .post(userAddApi, user, { headers })
+          .then((response) => {
+            if (response.data.success) {
+              this.$emit("updateGet", true);
+              this.savingSuccessful = true;
+            } else {
+              document.getElementById("back-error").innerText =
+                  response.data.message;
+            }
+          })
+          .catch((err) => {
+            document.getElementById("back-error").innerText =
+                err.response.data.message;
+          });
+    },
     acceptedFile(event) {
       this.file = event ? event : false;
     },

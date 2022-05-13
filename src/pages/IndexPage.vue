@@ -21,7 +21,7 @@
         </div>
         <ButtonComponent @click.stop.prevent="fetchUsers(nextLink)" title="Show more"/>
       </div>
-      <SignUpFormComponents />
+      <SignUpFormComponents @update-get="updateRequest" />
     </div>
   </div>
 </template>
@@ -48,8 +48,19 @@ export default {
     return {
       users: [],
       nextLink: "",
+      isUpdate: false,
       isLoading: false
     }
+  },
+  watch: {
+    isUpdate(newVal) {
+      if (newVal) {
+        this.fetchUsers(
+            "https://frontend-test-assignment-api.abz.agency/api/v1/users?page=1&count=6"
+        );
+        this.isUpdate = false;
+      }
+    },
   },
   mounted() {
     let api =
@@ -57,15 +68,16 @@ export default {
     this.fetchUsers(api);
   },
   methods: {
+    updateRequest(event) {
+      this.isUpdate = event;
+    },
     fetchUsers(api) {
       this.isLoading = true;
-      setTimeout(() => {
-        this.axios.get(api).then((response) => {
-          this.users = response.data.users;
-          this.nextLink = response.data.links.next_url;
-          this.isLoading = false;
-        });
-      }, 2000);
+      this.axios.get(api).then((response) => {
+        this.users = response.data.users;
+        this.nextLink = response.data.links.next_url;
+        this.isLoading = false;
+      });
     },
   }
 }

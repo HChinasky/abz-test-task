@@ -26,9 +26,7 @@ export default {
     const toggleClassListeners = computed(() => {
       return {
         blur: () => {
-          console.log(props.modelValue)
           if (props.modelValue === "") {
-            console.log(props.modelValue)
             document
                 .getElementById("form-control__" + props.nameInput)
                 .classList.remove("focused");
