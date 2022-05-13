@@ -3,14 +3,29 @@
     <span  :class="['input-label', { 'error-label': error !== '' }]">
       {{ label }}
     </span>
-    <input
-        v-on="toggleClassListeners"
-        @change="$emit('update:modelValue', $event.target.value)"
-        :value="modelValue"
-        :type="typeInput"
-        :name="nameInput"
-        :class="['form-input', { 'error-border': error !== '' }]"
-    />
+    <template v-if="showBottomLabel !== ''">
+      <input
+          v-on="toggleClassListeners"
+          @change="$emit('update:modelValue', $event.target.value)"
+          :value="modelValue"
+          :type="typeInput"
+          :name="nameInput"
+          v-mask="'+38 (0##) ###-##-##'"
+          :class="['form-input', { 'error-border': error !== '' }]"
+          :masked="false"
+      />
+      <span class="phone-primary">{{ showBottomLabel }}</span>
+    </template>
+    <template v-else>
+      <input
+          v-on="toggleClassListeners"
+          @change="$emit('update:modelValue', $event.target.value)"
+          :value="modelValue"
+          :type="typeInput"
+          :name="nameInput"
+          :class="['form-input', { 'error-border': error !== '' }]"
+      />
+    </template>
     <template v-if="error">
       <span class="error-text">{{ error }}</span>
     </template>
@@ -19,6 +34,7 @@
 
 <script>
 import { computed } from "vue";
+import { mask } from "vue-the-mask";
 
 export default {
   name: "InputTextComponent",
@@ -43,6 +59,9 @@ export default {
       toggleClassListeners,
     };
   },
+  directives: {
+    mask,
+  },
   props: {
     label: {
       type: String,
@@ -65,6 +84,10 @@ export default {
       type: String,
       default: "",
     },
+    showBottomLabel: {
+      type: String,
+      default: "",
+    }
   }
 }
 </script>

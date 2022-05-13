@@ -24,6 +24,7 @@
             name-input="phone"
             label="Phone"
             :error="phoneError"
+            show-bottom-label="+38 (XXX) XXX - XX - XX"
         />
         <span class="position-label">Select your position</span>
         <div v-for="pos in positions" :key="pos.id">
