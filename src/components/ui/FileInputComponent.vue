@@ -1,24 +1,63 @@
 <template>
   <div class="upload-control">
-    <div class="file-select">
-      <div class="file-select-button" id="fileName">
+    <div
+        :class="[
+        'file-select',
+        { 'has-error': inputError.hasOwnProperty('field') },
+      ]"
+    >
+      <div
+          :class="[
+          'file-select-button',
+          { 'has-error': inputError.hasOwnProperty('field') },
+        ]"
+          id="fileName"
+      >
         Upload
       </div>
       <div class="file-select-name" id="phoneName">Upload your photo</div>
-      <input
+      <Field
           @change="renderNameFiles"
           name="field"
           type="file"
           id="chooseFile"
           placeholder="Upload your photo"
+          :rules="validations"
       />
     </div>
+    <span class="error-text">{{ inputError.field }}</span>
   </div>
 </template>
 
 <script>
+import { Field, defineRule } from "vee-validate";
+import AllRules from "@vee-validate/rules";
+
+Object.keys(AllRules).forEach((rule) => {
+  defineRule(rule, AllRules[rule]);
+});
+
 export default {
   name: "FileInputComponent",
+  components: {
+    Field
+  },
+  props: {
+    inputError: {
+      type: Object,
+      required: true
+    },
+  },
+  data() {
+    return {
+      validations: {
+        image: true,
+        dimensions: { width: 70, height: 70 },
+        size: 5000,
+        ext: ["jpg", "jpeg"],
+      },
+    };
+  },
   methods: {
     renderNameFiles(event) {
       this.$emit("returnFile", event.target.files[0]);

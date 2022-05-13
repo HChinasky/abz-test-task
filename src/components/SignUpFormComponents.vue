@@ -1,35 +1,47 @@
 <template>
   <div class="wrap">
       <h2 class="title2 text-center">Working with POST request</h2>
-      <form class="form-wrap">
+      <Form
+          v-slot="{ errors }"
+          class="form-wrap"
+      >
         <InputTextComponent
             v-model="name"
             name-input="name"
             label="Your name"
+            :error="nameError"
         />
         <InputTextComponent
             v-model="email"
             name-input="email"
             label="Email"
+            :error="emailError"
         />
         <InputTextComponent
             v-model="phone"
             name-input="phone"
             label="Phone"
+            :error="phoneError"
         />
         <span class="position-label">Select your position</span>
         <div v-for="pos in positions" :key="pos.id">
           <RadioInputComponent :position="pos" v-model="position" />
         </div>
-        <FileInputComponent />
+        <FileInputComponent
+            @return-file="acceptedFile"
+            :inputError="errors"/>
         <div class="btn-wrap">
-          <ButtonComponent title="Submit" />
+          <ButtonComponent
+            title="Submit"
+            :disabled="!meta.valid || Object.keys(errors).length !== 0 || !file" />
         </div>
-      </form>
+      </Form>
   </div>
 </template>
 
 <script>
+import { Form, useForm, useField } from "vee-validate";
+import * as yup from "yup";
 import InputTextComponent from "@/components/ui/InputTextComponent";
 import ButtonComponent from "@/components/ui/ButtonComponent";
 import RadioInputComponent from "@/components/ui/RadioInputComponent";
@@ -37,28 +49,47 @@ import FileInputComponent from "@/components/ui/FileInputComponent";
 
 export default {
   name: "SignUpFormComponents",
+  setup() {
+    const schema = yup.object({
+      name: yup.string().required().min(2).max(60),
+      email: yup.string().email().required().min(2).max(100),
+      phone: yup.string().required().min(19).max(19),
+      position: yup.number().required(),
+    });
+    const { meta } = useForm({
+      validationSchema: schema,
+    });
+
+    const { value: email, errorMessage: emailError } = useField("email");
+    const { value: name, errorMessage: nameError } = useField("name");
+    const { value: phone, errorMessage: phoneError } = useField("phone");
+    const { value: position, errorMessage: positionError } =
+        useField("position");
+
+    return {
+      meta,
+      name,
+      nameError,
+      email,
+      emailError,
+      phone,
+      phoneError,
+      position,
+      positionError,
+      schema,
+    };
+  },
   components: {
     InputTextComponent,
     ButtonComponent,
     RadioInputComponent,
-    FileInputComponent
-  },
-  setup() {
-    const name = "";
-    const email = "";
-    const phone = "";
-    const position = "";
-
-    return {
-      name,
-      email,
-      phone,
-      position
-    }
+    FileInputComponent,
+    Form
   },
   data() {
     return {
       positions: {},
+      file: false,
     }
   },
   mounted() {
@@ -67,6 +98,11 @@ export default {
     this.axios.get(positionApi).then((response) => {
       this.positions = response.data.positions;
     });
+  },
+  methods: {
+    acceptedFile(event) {
+      this.file = event ? event : false;
+    },
   }
 }
 </script>

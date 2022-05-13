@@ -1,12 +1,19 @@
 <template>
   <div class="form-control" :id="'form-control__' + nameInput">
-    <span class="input-label">{{ label }}</span>
+    <span  :class="['input-label', { 'error-label': error !== '' }]">
+      {{ label }}
+    </span>
     <input
         v-on="toggleClassListeners"
         @change="$emit('update:modelValue', $event.target.value)"
         :value="modelValue"
-        class="form-input"
+        :type="typeInput"
+        :name="nameInput"
+        :class="['form-input', { 'error-border': error !== '' }]"
     />
+    <template v-if="error">
+      <span class="error-text">{{ error }}</span>
+    </template>
   </div>
 </template>
 
@@ -19,7 +26,9 @@ export default {
     const toggleClassListeners = computed(() => {
       return {
         blur: () => {
+          console.log(props.modelValue)
           if (props.modelValue === "") {
+            console.log(props.modelValue)
             document
                 .getElementById("form-control__" + props.nameInput)
                 .classList.remove("focused");
@@ -43,11 +52,20 @@ export default {
     },
     modelValue: {
       type: String,
-      required: true
+      required: true,
+      default: "",
     },
     nameInput: {
       type: String,
       required: true,
+    },
+    typeInput: {
+      type: String,
+      default: "text",
+    },
+    error: {
+      type: String,
+      default: "",
     },
   }
 }

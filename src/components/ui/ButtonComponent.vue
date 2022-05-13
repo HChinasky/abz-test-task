@@ -37,5 +37,9 @@ export default {
   &:hover {
     background-color: #FFE302;
   }
+  &:disabled {
+    background-color: #b4b4b4;
+    color: #fff;
+  }
 }
 </style>
