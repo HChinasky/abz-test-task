@@ -6,7 +6,7 @@
       </div>
       <div class="buttons-block">
         <LinkComponent link-class="mr-10" title="Users" />
-        <LinkComponent link-class="mr-10" title="Sign up" />
+        <LinkComponent title="Sign up" />
       </div>
     </div>
   </div>

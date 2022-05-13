@@ -1,0 +1,47 @@
+@media only screen and (max-width: 1024px) {
+  .header {
+    padding: 0 16px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .header {
+    padding: 0 16px;
+  }
+  .banner {
+    height: 500px;
+  }
+  .col-4 {
+    flex: 0 0 50%;
+    max-width: 50%;
+    .card {
+      margin: 0 8px 16px;
+    }
+  }
+}
+
+@media only screen and (max-width: 576px) and (min-width: 320px) {
+  .header {
+    padding: 0 16px;
+  }
+  .banner {
+    height: 500px;
+    justify-content: flex-start;
+  }
+  .text-wrap {
+    padding: 0 16px;
+    margin-top: 24px;
+  }
+  .col-4 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    &:not(:last-child) {
+      .card {
+        margin: 0 0 20px 0;
+      }
+    }
+  }
+  .wrap {
+    padding: 0 16px;
+  }
+}
