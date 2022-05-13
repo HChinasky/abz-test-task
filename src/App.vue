@@ -6,13 +6,13 @@
 import IndexPage from "@/pages/IndexPage";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     IndexPage
   },
 }
 </script>
 
-<style>
-@import "scss/app.scss";
+<style lang="scss">
+@import "scss/app";
 </style>
